@@ -1,6 +1,6 @@
 from collections import Counter
 
-def average_last_days(start, end, records, up_ratio=0.1):
+def average_last_days(start, end, records, keys ,up_ratio=0.1):
     day_delta = end - start
     day_first = start - day_delta
     flavors = []
@@ -10,6 +10,8 @@ def average_last_days(start, end, records, up_ratio=0.1):
         else:
             break
     flavors_count = Counter(flavors)
+    flavors_count_ = {}
     for k,v in flavors_count.items():
-        flavors_count.update({k:int(v*(1+up_ratio))})
-    return flavors_count
+        if k in keys:
+            flavors_count_.update({k:int(v*(1+up_ratio))})
+    return flavors_count_

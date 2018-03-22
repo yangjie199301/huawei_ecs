@@ -41,16 +41,11 @@ def predict_vm(ecs_lines, input_lines):
         records.append((uuid,flavorName,createTime))
 
     #predict
-    flavors_count = average_last_days(start, end, records, up_ratio=0)
+    flavors_count = average_last_days(start, end, records, flavors.keys() , up_ratio=0)
     result.append(str(sum(flavors_count.values())))
     for k in flavors.keys():
-        if k not in flavors_count.keys():
-            result.append(k+' '+'0')
-        else:
-            result.append(k+' '+str(flavors_count[k]))
-    for k in flavors_count.keys():
-        if k not in flavors.keys():
-            flavors_count.pop(k)
+        result.append(k+' '+str(flavors_count.get(k,0)))
+
     result.append('')
     #put
     put_result = ffd(flavors,flavors_count,cpu_capacity,mem_capacity,descrease=True,cpu_first=cpu_first)
